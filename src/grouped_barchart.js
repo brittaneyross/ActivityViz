@@ -1,6 +1,6 @@
 //encapsulate all code within a IIFE (Immediately-invoked-function-expression) to avoid polluting global namespace
 //global object grouped_barchart will contain functions and variables that must be accessible from elsewhere
-function grouped_barchart (id, data,options) {
+function grouped_barchart (id, data, options, chartSelector, url) {
 	"use strict";
 	var chartDataContainer=[];
 	var chartData;
@@ -10,8 +10,8 @@ function grouped_barchart (id, data,options) {
 	var mainGroupSet = options.mainGrpSet;
 	var subGroupSet = options.subGrpSet;
 	var chartSet;
-	var url = "../data/" +abmviz_utilities.GetURLParameter("region")+"/"+ abmviz_utilities.GetURLParameter("scenario") + "/BarChartData.csv"
-	var chartSelector = "#grouped-barchart";
+	//var url = "../data/" +abmviz_utilities.GetURLParameter("region")+"/"+ abmviz_utilities.GetURLParameter("scenario") + "/BarChartData.csv"
+	//var chartSelector = "#grouped-barchart";
 	var svgChart;
 	var extNvd3Chart;
 	var minBarWidth = 2;
@@ -42,17 +42,17 @@ function grouped_barchart (id, data,options) {
 	var barsWrapRectSelector = "#" + barsWrapRectId;
 	var showChartOnPage = true;
 	$("#scenario-header").html("Scenario " + abmviz_utilities.GetURLParameter("scenario"));
-	//start off chain of initialization by reading in the data	
+	//start off chain of initialization by reading in the data
     svgChart = d3.select(id);
     //setDataSpecificDOM();
 	createEmptyChart(runAfterChartCreated);
 	//initializeMuchOfUI();
 
 
-	//start off chain of initialization by reading in the data	
+	//start off chain of initialization by reading in the data
 
 function runAfterChartCreated() {
-    if ($("#grouped-barchart-toggle-horizontal").prop('checked')) {
+    if ($("#" + chartSelector + "-toggle-horizontal").prop('checked')) {
         $('#grouped-barchart-div .nv-x .nv-axis text').not('.nv-axislabel').css('transform', 'rotate(-90deg)').css('text-anchor', 'end').attr('y', '-7');
     }
 
@@ -137,9 +137,9 @@ runAfterChartCreated();
 		if (currentMainGroup != newCurrentMainGroup) {
 			console.log('changing from ' + currentMainGroup + " to " + newCurrentMainGroup);
 			currentMainGroup = newCurrentMainGroup;
-			var mainGroupLabels = d3.selectAll("#grouped-barchart-div .nv-x .tick text");
+			var mainGroupLabels = d3.selectAll("#" + chartSelector + "-div .nv-x .tick text");
 			if(showAsVertical)
-			    mainGroupLabels = d3.selectAll("#grouped-barchart-div .nv-x .tick foreignObject p");
+			    mainGroupLabels = d3.selectAll("#" + chartSelector + "-div .nv-x .tick foreignObject p");
 			mainGroupLabels.classed("selected", function (d, i) {
 				var setClass = d == currentMainGroup;
 				return setClass;
@@ -179,7 +179,7 @@ runAfterChartCreated();
                     right: showAsVertical ? marginRightVert : marginRight,
                     top: showAsVertical ? marginTopVert : marginTop,
                     bottom: showAsVertical ? marginBottomVert : marginBottom
-                }).id("grouped-barchart-multiBarHorizontalChart").stacked(showAsGrouped).showControls(false);
+                }).id(chartSelector + "-multiBarHorizontalChart").stacked(showAsGrouped).showControls(false);
 
 
                // if (maxVal != 0 && !showPercentages) {
@@ -223,8 +223,8 @@ runAfterChartCreated();
 					console.log("nv.addGraph callback called");
 					extNvd3Chart = newGraph;
                     extNvd3Chart.dispatch.on("renderEnd", function (d, j) {
-                    if ($("#grouped-barchart-toggle-horizontal").prop('checked')) {
-                        $('#grouped-barchart-div .nv-x .nv-axis text').not('.nv-axislabel').css('transform', 'rotate(-90deg)').css('text-anchor', 'end').attr('y', '-7');
+                    if ($("#" + chartSelector + "-toggle-horizontal").prop('checked')) {
+                        $('#' + chartSelector+ '-div .nv-x .nv-axis text').not('.nv-axislabel').css('transform', 'rotate(-90deg)').css('text-anchor', 'end').attr('y', '-7');
                     }
                 });
 
@@ -243,5 +243,3 @@ runAfterChartCreated();
 	return { };
 
 }
-
-

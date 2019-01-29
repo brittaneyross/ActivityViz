@@ -22,11 +22,8 @@
 	<script type="text/javascript" src="../abmviz_utilities.js"></script>
 
 	<script defer type="text/javascript" src="grouped_barchart.js"></script>
-
-
+	<script type="text/javascript" src='grouped_barchart_data.js'></script>
 	<script defer type="text/javascript" src="mapper.js"></script>
-
-
 
 	<script defer type="text/javascript" src="radar-chart-nbremer.js"></script>
 
@@ -102,7 +99,7 @@
 			</p>
 			<div class="col-xs-12" style="margin-top:1em;">
 				<div class="col-xs-6" style="margin-bottom:1em">
-					
+
 
 					<div class="col-xs-12">
 						<label>
@@ -285,7 +282,7 @@
 				<div class="row" style="margin-top:4px">
 					<ul>
 
-						
+
 						<li>
 							<label class="checkbox-inline">
 								<input id="grouped-barchart-pivot-axes" type="checkbox">Swap bars and legend?</label>
@@ -302,14 +299,28 @@
 							<label class="checkbox-inline">
 								<input id="grouped-barchart-toggle-stacked" type="checkbox">Show as Stacked?</label>
 						</li>
-						
+
 					</ul>
 
 				</div>
 			</div>
 			<div class="row" style="width:100%;height:400px">
 				<div id="grouped-barmain">
-					<div id="grouped-bar-container"></div>
+					<div id="grouped-barchart-container"></div>
+				</div>
+			</div>
+		</div>
+		<div id="grouped-barchart2-div" class="row dynamic-content" style="margin-bottom:100px">
+
+			<p class="text-center" style="font-size:2em">
+				<strong>
+					<span class="grouped-barchart2-main-group"></span>,</strong> by
+				<span class="grouped-barchart2-sub-group"></span>
+			</p>
+			<div class="row" style="width:100%;height:400px">
+				<div id="grouped-barmain">
+					<div id='grouped-barchart2-container'></div>
+					
 				</div>
 			</div>
 		</div>
@@ -325,11 +336,11 @@
 			</p>
 			<div class="col-xs-6 right-border" style="margin-top:4px">
 				<div class="row">
-					
+
 
 					<div class="row" style="margin-top:4px">
 						<div class="col-xs-10">
-							
+
 						</div>
 						<div class="col-xs-2">
 							<label>
@@ -514,7 +525,7 @@
 					</div>
 					<div class="row">
 						<div class="col-xs-12" style="margin-top:1em;">
-							
+
 						</div>
 					</div>
 				</div>
@@ -531,7 +542,7 @@
 			<div id="timeuse-sidebar" class="col-xs-2">
 				<div id="timeuse-text-area">Time Use displays person out-of-home travel purpose by time of day. The vertical axis displays the sum or percent of
 					activity and the horizontal axis displays the period of the day.</div>
-				
+
 				<div id="timeuse-legend"></div>
 			</div>
 			<div id="timeuse-main" class="col-xs-10">
@@ -555,7 +566,7 @@
 				<div id="sunburst-chart" class="col-xs-7"></div>
 				<div class="col-xs-5">
 					<div id="sunburst-text-area">
-						
+
 					</div>
 					<div id="sunburst-explanation" style="visibility: hidden;">
 						<p>
@@ -579,7 +590,7 @@
 
 				<strong>
 					<span class="chord-chart-maingroup"></span>,</strong> by
-				
+
 			</p>
 			<div class="col-md-6 col-sm-12 right-border">
 				<div id="chord-tooltip" class="">
@@ -614,7 +625,7 @@
 			</p>
 			<div id="radar-sidebar" class="col-xs-2">
 				<div id="radar-text-area"></div>
-				
+
 				<div id="radar-legend"></div>
 			</div>
 			<div id="radar-main" class="col-xs-10">
@@ -703,7 +714,12 @@
 	fileExists(barchartmap_path,"#mode-share-by-county","#barchartmap_tab");
 
 	var barchart_path = "../data/"+abmviz_utilities.GetURLParameter("region")+"/"+ abmviz_utilities.GetURLParameter("scenario") + "/BarChartData.csv";
+	render_barchart(barchart_path,"../data/" + abmviz_utilities.GetURLParameter("region") + "/" + "region.json","grouped-barchart");
 	fileExists(barchart_path,"#grouped-barchart-div","#grouped_tab");
+
+	var barchart_path2 = "../data/"+abmviz_utilities.GetURLParameter("region")+"/"+ abmviz_utilities.GetURLParameter("scenario") + "/BarChartData.csv";
+	render_barchart(barchart_path2,"../data/" + abmviz_utilities.GetURLParameter("region") + "/" + "region.json","grouped-barchart2");
+	fileExists(barchart_path,"#grouped-barchart2-div","#grouped_tab");
 
 	var radar_path = "../data/"+abmviz_utilities.GetURLParameter("region")+"/"+ abmviz_utilities.GetURLParameter("scenario") + "/RadarChartsData.csv";
 	fileExists(radar_path,"#radar","#radar_tab");
@@ -789,15 +805,15 @@
 		        window.dispatchEvent(new Event('resize'));
             }
         });
-		$('a[href="#grouped_tab"]').on('shown.bs.tab', function (e) {
-		    if(loadedScripts["grouped"] ==false){
-                $.getScript("grouped_barchart_data.js").done(function(scripts,textStatus){
-                    loadedScripts["grouped"] = true;
-                });
-            } else {
-                window.dispatchEvent(new Event('resize'));
-            }
-        });
+		// $('a[href="#grouped_tab"]').on('shown.bs.tab', function (e) {
+		//     if(loadedScripts["grouped"] ==false){
+    //             $.getScript("grouped_barchart_data.js").done(function(scripts,textStatus){
+    //                 loadedScripts["grouped"] = true;
+    //             });
+    //         } else {
+    //             window.dispatchEvent(new Event('resize'));
+    //         }
+    //     });
         $('a[href="#barchartmap_tab"]').on('shown.bs.tab', function (e) {
 		    if(loadedScripts["barchart"] ==false){
                 $.getScript("barchart_and_map.js").done(function(scripts,textStatus){

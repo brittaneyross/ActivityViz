@@ -37,9 +37,10 @@
 
                                $.each(reg.scenarios, function (key, value) {
                                    if(Array.isArray(reg.scenarios)) {
-
-                                           $("#" + k + "_scenarios").append("<li><a class='scenariolink' href='src/index.html?region=" + k + "&scenario=" + value.name + "'>" + value.name + value.label + "</a></li>");
-
+																		 $("#" + k + "_scenarios").append("<li><a class='scenariolink' href='src/index.html?region=" + k + "&scenario=" + value.name + "'>" + value.name + value.label + "</a></li>");
+																		 $(function(){
+																	      $("#" + k + "_load").load("'src/index.html?region=" + k + "&scenario=" + value.name + "'");
+																	    });
                                    } else {
                                        $("#" + k + "_scenarios").append("<li><a class='scenariolink' href='src/index.html?region=" + k + "&scenario=" + key + "'>" + key + value + "</a></li>");
                                    }
@@ -53,6 +54,14 @@
         });
 
 	</script>
+
+	<script src="jquery.js"></script>
+	    <script>
+	    $(function(){
+	     $("#atlanta_load").load('src/index.html?region=atlanta&scenario=BS10');
+	    });
+	</script>
+
 </head>
 
 <body>
@@ -63,10 +72,8 @@
 	<div id="scenarios" style="margin:5em;">
  <div id="novizalert" class="alert alert-danger" style="display:none">Please select at least one visualization to display</div>
         <h3><p>Please select a scenario for visualization</p></h3>
-
             <br/>
 	</div>
-
 </body>
 
 </html>

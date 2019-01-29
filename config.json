@@ -12,7 +12,7 @@
     "sacramento":{
       "default":  false
     },
-	"nebraska":{
+	 "cmap":{
       "default":  false
     }
   }
