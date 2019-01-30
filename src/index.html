@@ -270,13 +270,13 @@
        </div>
 		<!--end three3d-->
 <div role="tabpanel" class="tab-pane" id="grouped_tab">
-		<div id="grouped-barchart-div" class="row dynamic-content" style="margin-bottom:100px">
+		<div id="gbarchart-div" class="row dynamic-content" style="margin-bottom:100px">
 
 			<p class="text-center" style="font-size:2em">
 
 				<strong>
-					<span class="grouped-barchart-main-group"></span>,</strong> by
-				<span class="grouped-barchart-sub-group"></span>
+					<span class="gbarchart-main-group"></span>,</strong> by
+				<span class="gbarchart-sub-group"></span>
 			</p>
 			<div class="col-xs-12">
 				<div class="row" style="margin-top:4px">
@@ -285,19 +285,19 @@
 
 						<li>
 							<label class="checkbox-inline">
-								<input id="grouped-barchart-pivot-axes" type="checkbox">Swap bars and legend?</label>
+								<input id="gbarchart-pivot-axes" type="checkbox">Swap bars and legend?</label>
 						</li>
 						<li>
 							<label class="checkbox-inline">
-								<input id="grouped-barchart-toggle-percentage" type="checkbox">Show as Percentage?</label>
+								<input id="gbarchart-toggle-percentage" type="checkbox">Show as Percentage?</label>
 						</li>
 						<li>
 							<label class="checkbox-inline">
-								<input id="grouped-barchart-toggle-horizontal" type="checkbox">Show as Vertical?</label>
+								<input id="gbarchart-toggle-horizontal" type="checkbox">Show as Vertical?</label>
 						</li>
 						<li>
 							<label class="checkbox-inline">
-								<input id="grouped-barchart-toggle-stacked" type="checkbox">Show as Stacked?</label>
+								<input id="gbarchart-toggle-stacked" type="checkbox">Show as Stacked?</label>
 						</li>
 
 					</ul>
@@ -305,26 +305,48 @@
 				</div>
 			</div>
 			<div class="row" style="width:100%;height:400px">
-				<div id="grouped-barmain">
-					<div id="grouped-barchart-container"></div>
-				</div>
+					<div id="gbarchart-container"></div>
 			</div>
 		</div>
+		<!-- end grouped-barchart -->
 		<div id="grouped-barchart2-div" class="row dynamic-content" style="margin-bottom:100px">
 
 			<p class="text-center" style="font-size:2em">
+
 				<strong>
 					<span class="grouped-barchart2-main-group"></span>,</strong> by
 				<span class="grouped-barchart2-sub-group"></span>
 			</p>
-			<div class="row" style="width:100%;height:400px">
-				<div id="grouped-barmain">
-					<div id='grouped-barchart2-container'></div>
-					
+			<div class="col-xs-12">
+				<div class="row" style="margin-top:4px">
+					<ul>
+
+
+						<li>
+							<label class="checkbox-inline">
+								<input id="grouped-barchart2-pivot-axes" type="checkbox">Swap bars and legend?</label>
+						</li>
+						<li>
+							<label class="checkbox-inline">
+								<input id="grouped-barchart2-toggle-percentage" type="checkbox">Show as Percentage?</label>
+						</li>
+						<li>
+							<label class="checkbox-inline">
+								<input id="grouped-barchart2-toggle-horizontal" type="checkbox">Show as Vertical?</label>
+						</li>
+						<li>
+							<label class="checkbox-inline">
+								<input id="grouped-barchart2-toggle-stacked" type="checkbox">Show as Stacked?</label>
+						</li>
+
+					</ul>
+
 				</div>
 			</div>
+			<div class="row" style="width:100%;height:400px">
+					<div id="grouped-barchart2-container"></div>
+			</div>
 		</div>
-		<!-- end grouped-barchart -->
 </div>
                             <div role="tabpanel" class="tab-pane" id="barchartmap_tab">
 		<div id="mode-share-by-county" class="row dynamic-content">
@@ -714,10 +736,10 @@
 	fileExists(barchartmap_path,"#mode-share-by-county","#barchartmap_tab");
 
 	var barchart_path = "../data/"+abmviz_utilities.GetURLParameter("region")+"/"+ abmviz_utilities.GetURLParameter("scenario") + "/BarChartData.csv";
-	render_barchart(barchart_path,"../data/" + abmviz_utilities.GetURLParameter("region") + "/" + "region.json","grouped-barchart");
-	fileExists(barchart_path,"#grouped-barchart-div","#grouped_tab");
+	render_barchart(barchart_path,"../data/" + abmviz_utilities.GetURLParameter("region") + "/" + "region.json","gbarchart");
+	fileExists(barchart_path,"#gbarchart-div","#grouped_tab");
 
-	var barchart_path2 = "../data/"+abmviz_utilities.GetURLParameter("region")+"/"+ abmviz_utilities.GetURLParameter("scenario") + "/BarChartData.csv";
+	var barchart_path2 = "../data/"+abmviz_utilities.GetURLParameter("region")+"/"+ abmviz_utilities.GetURLParameter("scenario") + "/BarChartData2.csv";
 	render_barchart(barchart_path2,"../data/" + abmviz_utilities.GetURLParameter("region") + "/" + "region.json","grouped-barchart2");
 	fileExists(barchart_path,"#grouped-barchart2-div","#grouped_tab");
 

@@ -38,7 +38,7 @@ function grouped_barchart (id, data, options, chartSelector, url) {
     var minVal = options.minVal;
 	var ROTATELABEL = options.rotateLabel;
 	var BARSPACING = showAsGrouped ? options.barSpacing:0.2;
-	var barsWrapRectId = "grouped-barchart-barsWrapRectRSG"
+	var barsWrapRectId = chartSelector + "-barsWrapRectRSG"
 	var barsWrapRectSelector = "#" + barsWrapRectId;
 	var showChartOnPage = true;
 	$("#scenario-header").html("Scenario " + abmviz_utilities.GetURLParameter("scenario"));
@@ -53,7 +53,7 @@ function grouped_barchart (id, data, options, chartSelector, url) {
 
 function runAfterChartCreated() {
     if ($("#" + chartSelector + "-toggle-horizontal").prop('checked')) {
-        $('#grouped-barchart-div .nv-x .nv-axis text').not('.nv-axislabel').css('transform', 'rotate(-90deg)').css('text-anchor', 'end').attr('y', '-7');
+        $('#' + chartSelector + '-div .nv-x .nv-axis text').not('.nv-axislabel').css('transform', 'rotate(-90deg)').css('text-anchor', 'end').attr('y', '-7');
     }
 
 }

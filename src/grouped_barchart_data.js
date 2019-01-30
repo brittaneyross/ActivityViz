@@ -92,7 +92,7 @@ function render_barchart(url, json, chartSelector){
               d3.csv(url, function (error, data) {
                   "use strict";
   				if (error) {
-                      $('#' + grouped-barchart + '-div').html("<div class='container'><h3><span class='alert alert-danger'>Error: An error occurred while loading the grouped bar chart data.</span></h3></div>");
+                      $('#' + chartSelector+ '-div').html("<div class='container'><h3><span class='alert alert-danger'>Error: An error occurred while loading the grouped bar chart data.</span></h3></div>");
                       throw error;
                   }
                   //expected data should have columns similar to: ZONE,COUNTY,TRIP_MODE_NAME,QUANTITY
@@ -125,7 +125,7 @@ function render_barchart(url, json, chartSelector){
                   var totalsForEachMainGroup = {};
                   var totalsForIndependentGroups = {};
                   if(subGroupColumn == undefined) {
-                        $('#' + grouped-barchart + '-div').html("<div class='container'><h3><span class='alert alert-danger'>Error: An error occurred while loading the grouped bar chart data.</span></h3></div>");
+                        $('#' + chartSelector + '-div').html("<div class='container'><h3><span class='alert alert-danger'>Error: An error occurred while loading the grouped bar chart data.</span></h3></div>");
                         return;
                   }
 
@@ -317,9 +317,9 @@ function render_barchart(url, json, chartSelector){
 
   	}
       function setDataSpecificDOM() {
-      d3.selectAll(".grouped-barchart-main-group").html(mainGroupColumn);
-      d3.selectAll(".grouped-barchart-sub-group").html(subGroupColumn);
-      d3.selectAll(".grouped-barchart-sub-group-example").html(chartData[0].key);
+      d3.selectAll("." + chartSelector + "-main-group").html(mainGroupColumn);
+      d3.selectAll("." + chartSelector + "-sub-group").html(subGroupColumn);
+      d3.selectAll("." + chartSelector + "-sub-group-example").html(chartData[0].key);
   }
       } //end createGrouped
       createGrouped();
