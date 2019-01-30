@@ -17,7 +17,7 @@
   "visualizations":{
   "GrpBar":true,
   "GrpBar2":true,
-  "BarMap":false,
+  "BarMap":true,
   "TimeUse":false,
   "Radar":false,
   "Sunburst":false,
