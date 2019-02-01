@@ -1,8 +1,10 @@
 //encapsulate all code within a IIFE (Immediately-invoked-function-expression) to avoid polluting global namespace
 //global object sunburst will contain functions and variables that must be accessible from elsewhere
+
 var sunburst = (function () {
 	"use strict";
 	var url = "../data/" +abmviz_utilities.GetURLParameter("region")+"/"+ abmviz_utilities.GetURLParameter("scenario") + "/TreeMapData.csv";
+	var url2 = "../data/" +abmviz_utilities.GetURLParameter("region")+"/"+ abmviz_utilities.GetURLParameter("scenario") + "/TreeMapData.2csv";
 	//var url = "../data/" + abmviz_utilities.GetURLParameter("scenario") + "/visit-sequences.csv";
 	var legendBoxWidth = 150;
 	var legendDepthIndent = 10;
@@ -17,6 +19,7 @@ var sunburst = (function () {
 	var originalNodeData;
 	var radius, x, y, svg, arc;
 	var showChartOnPage = true;
+	var chartSelector = 'sunburst'
 	// Dimensions of legend item: width, height, spacing, radius of rounded rect.
 	var li = {
 		w: legendBoxWidth,
@@ -28,48 +31,42 @@ var sunburst = (function () {
 	// Total size of all segments; we set this later, after loading the data.
 	var totalSize;
 
-	function createSunburst() {
 		//read in data and create sunburst when finished
 
-		if (json === null) {
-			d3.text(url, function (error, data) {
-                "use strict";
-            if (error) {
-               $('#sunburst').html("<div class='container'><h3><span class='alert alert-danger'>Error: An error occurred while loading the sunburst data.</span></h3></div>");
-                throw error;
+	d3.text(url, function (error, data) {
+            "use strict";
+        if (error) {
+           $('#' + chartSelector).html("<div class='container'><h3><span class='alert alert-danger'>Error: An error occurred while loading the sunburst data.</span></h3></div>");
+            throw error;
+        }
+            var csv = d3.csv.parseRows(data);
+            var headers = csv[0];
+            var maingroupColumn = headers[0];
+            var subgroupColumn = headers[1];
+            var quantityColumn = headers[2];
+
+            d3.selectAll("." + chartSelector + "-maingroup").html(maingroupColumn);
+
+            try {
+                json = buildHierarchy(csv);
+                originalNodeData = createVisualization(chartSelector);
+                drawLegend(originalNodeData);
+            } catch (err) {
+                if (json === null)
+                   $('#' + chartSelector).html("<div class='container'><h3><span class='alert alert-danger'>Error: An error occurred while loading the sunburst data.</span></h3></div>");
             }
-                var csv = d3.csv.parseRows(data);
-                var headers = csv[0];
-                var maingroupColumn = headers[0];
-                var subgroupColumn = headers[1];
-                var quantityColumn = headers[2];
-
-                d3.selectAll(".sunburst-maingroup").html(maingroupColumn);
-
-                try {
-                    json = buildHierarchy(csv);
-                    originalNodeData = createVisualization();
-                    drawLegend(originalNodeData);
-                } catch (err) {
-                    if (json === null)
-                       $('#sunburst').html("<div class='container'><h3><span class='alert alert-danger'>Error: An error occurred while loading the sunburst data.</span></h3></div>");
-                }
-            }); //end d3.text
-		} else {
-			//if already exists don't need to read in and parse again
-			createVisualization();
-		}
+        }); //end d3.text
 		//https://bl.ocks.org/kerryrodden/7090426
 		// Main function to draw and set up the visualization, once we have the data.
-		function createVisualization() {
+		function createVisualization(chart_id) {
 
 			// Basic setup of page elements.
-			var sunburstBounds = d3.select("#sunburst-chart").node().getBoundingClientRect();
+			var sunburstBounds = d3.select("#" + chart_id + "-chart").node().getBoundingClientRect();
 			//Sequences sunburst https://bl.ocks.org/kerryrodden/7090426
 			// Dimensions of sunburst.
 			var width = Math.min(600, sunburstBounds.width);
 			var height = width;
-			d3.select("#sunburst-chart svg").remove(); //in case window resize delete contents
+			d3.select("#" + chart_id + "-chart svg").remove(); //in case window resize delete contents
 			radius = Math.min(width, height) / 2;
 
 			var partition = d3.layout.partition()
@@ -146,7 +143,7 @@ var sunburst = (function () {
 					return Math.max(0, y(d.y + d.dy));
 				});
 
-			svg = d3.select("#sunburst-chart").append("svg").attr("id", "sunburst-container")
+			svg = d3.select("#" + chart_id + "-chart").append("svg").attr("id", chart_id + "-container")
 				.attr("width", width)
 				.attr("height", height)
 				.append("g")
@@ -154,7 +151,7 @@ var sunburst = (function () {
 			nodeVisuals = svg.selectAll("path")
 				.data(nodeData)
 				.enter().append("path")
-				.attr("d", arc).attr("class", "sunburst-node").attr("fill-rule", "evenodd")
+				.attr("d", arc).attr("class", chart_id + "-node").attr("fill-rule", "evenodd")
 				.style("fill", function (d) {
 					return d.uniqueId == 0 ? "#d3d3d3" : colors[d.uniqueId];
 				})
@@ -167,8 +164,8 @@ var sunburst = (function () {
 
 
 			// Add the mouseleave handler to the bounding circle.
-			d3.select("#sunburst-container").on("mouseleave", mouseleave);
-			nodeVisuals.classed("sunburst-negative", function (d) {
+			d3.select("#" + chart_id + "-container").on("mouseleave", mouseleave);
+			nodeVisuals.classed(chart_id + "-negative", function (d) {
 				return d.name.startsWith(negativePrefix);
 			});
 			return nodeData;
@@ -204,17 +201,17 @@ var sunburst = (function () {
 			if (percentage < 0.1) {
 				percentageString = "< 0.1%";
 			}
-			d3.select("#sunburst-percentage").text(percentageString);
-			d3.select("#sunburst-current-node").text(node.name);
-			d3.select("#sunburst-current-node-value").text(getReadableValueString(node.value));
-			d3.select("#sunburst-explanation").style("visibility", "").classed("sunburst-negative", function (d) {
+			d3.select("#" + chartSelector + "-percentage").text(percentageString);
+			d3.select("#" + chartSelector + "-current-node").text(node.name);
+			d3.select("#" + chartSelector + "-current-node-value").text(getReadableValueString(node.value));
+			d3.select("#" + chartSelector + "-explanation").style("visibility", "").classed(chartSelector + "-negative", function (d) {
 				return node.name.startsWith(negativePrefix);
 			});
 		};
 
 
 		function hideNodeExplanation() {
-			d3.select("#sunburst-explanation").style("visibility", "hidden");
+			d3.select("#" + chartSelector + "-explanation").style("visibility", "hidden");
 		}
 
 		// Fade all but the current sequence, and show it sorted to the top of the legend.
@@ -296,23 +293,23 @@ var sunburst = (function () {
 		}
 
 		function dimAllBut(selection, undimmed) {
-			selection.classed("sunburst-dimmed", function (d) {
+			selection.classed(chartSelector + "-dimmed", function (d) {
 				return (undimmed.indexOf(d) == -1);
 			});
 		};
 
 		function unDimClass(selection) {
-			selection.classed("sunburst-dimmed", false);
+			selection.classed(chartSelector + "-dimmed", false);
 		};
 
 		function drawLegend() {
-			d3.select("#sunburst-legend svg").remove(); //remove in case this is a window resize event
+			d3.select("#" + chartSelector + "-legend svg").remove(); //remove in case this is a window resize event
 			//for height leave an extra slot so that when showing active nodes at top can have a space separating from rest of legend
 			var totalLegendHeight = (originalNodeData.length + 1) * (li.h + li.s);
-			var legend = d3.select("#sunburst-legend").append("svg:svg").attr("width", legendBoxWidth + ((maxDepth - 1) * legendDepthIndent)).attr("height", totalLegendHeight).on("mouseleave", function () {
+			var legend = d3.select("#" + chartSelector + "-legend").append("svg:svg").attr("width", legendBoxWidth + ((maxDepth - 1) * legendDepthIndent)).attr("height", totalLegendHeight).on("mouseleave", function () {
 // 				unDimClass(nodeVisuals);
 // 				unDimClass(legendRects);
-				d3.select("#sunburst-explanation").style("visibility", "hidden");
+				d3.select("#" + chartSelector + "-explanation").style("visibility", "hidden");
 			});
 			legendGroups = legend.selectAll("g").data(originalNodeData).enter().append("svg:g").attr("transform", function (d, i) {
 				return "translate(" + getDepthIndent(d) + "," + i * (li.h + li.s) + ")";
@@ -327,7 +324,7 @@ var sunburst = (function () {
 			legendTexts = legendGroups.append("svg:text").attr("x", li.w / 2).attr("y", li.h / 2).attr("dy", "0.35em").attr("text-anchor", "middle").text(function (d) {
 				return d.name;
 			}).on("click", clickOnNodeVisual);
-			legendRects.classed("sunburst-negative", function (d) {
+			legendRects.classed(chartSelector + "-negative", function (d) {
 				return d.name.startsWith(negativePrefix);
 			});
 
@@ -411,14 +408,13 @@ var sunburst = (function () {
 			}
 			return root;
 		};
-	}; //end createSunburst
-	if(showChartOnPage){
-	createSunburst();
-	window.addEventListener("resize", function () {
-		console.log("Got resize event. Calling sunburst");
-		createSunburst();
-	});
-	}
+	// if(showChartOnPage){
+	// createSunburst();
+	// window.addEventListener("resize", function () {
+	// 	console.log("Got resize event. Calling sunburst");
+	// 	createSunburst();
+	// });
+	// }
 	//return only the parts that need to be global
 	return {};
 }()); //end encapsulating IIFE

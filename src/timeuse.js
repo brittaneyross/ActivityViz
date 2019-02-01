@@ -125,7 +125,7 @@ var timeuse = (function () {
 							key: origPurpose,
 							values: periodDataArray
 						});
-					}); //end loop over origPurposes 
+					}); //end loop over origPurposes
 					return personTypeChartData;
 				}; //end getPersonTypeChartData
 				console.log('timeuse finished reading data');
@@ -218,7 +218,7 @@ var timeuse = (function () {
 					//How to Remove control options from NVD3.js Stacked Area Chart
 					//http://www.bainweb.com/2015/09/how-to-remove-control-options-from.html
 					chart._options.controlOptions = ['Stacked', 'Expanded'];
-					//Format x-axis labels with custom function. 
+					//Format x-axis labels with custom function.
 					chart.xAxis.tickFormat(function (d) {
 						return abmviz_utilities.halfHourTimePeriodToTimeString(d);
 					});
@@ -235,7 +235,7 @@ var timeuse = (function () {
 						}
 					} //end callback function
 			}); //end nv.addGraph
-		}; //end createEmptyChart 
+		}; //end createEmptyChart
 		function drawLegend(personTypes) {
 			d3.select("#timeuse-legend svg").remove(); //remove in case this is a window resize event
 			//for height leave an extra slot so that when showing active nodes at top can have a space separating from rest of legend
