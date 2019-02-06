@@ -17,6 +17,8 @@
   "visualizations":{
   "GrpBar":true,
   "BarMap":true,
+  "Chord": true,
+  "Sunburst":true,
   "TimeUse":false,
   "Radar":false,
   "Sunburst":false,
