@@ -1,6 +1,7 @@
 <html>
 
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title> ABMVIZ</title>
 	<link rel="shortcut icon" href="">
 	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
@@ -30,7 +31,7 @@
                                $('#navbarlink').attr("href", linkURL);
                                $('#logo_id').attr("src", "data/" + k + "/img/" + logo + "");
                            }
-                           $('#' + k + '_id').append("<h4>"+ regiontitle +"<img style='max-height: 25px;margin-left:2%;'src='"+"data/" + k + "/img/" + reg.FrontPageGraphic + ""+"'/>"+ "</h4>");
+                           $('#' + k + '_id').append("<h4>"+ regiontitle +"</h4>");
                            $('#' + k + '_id').append("<ul id='" + k + "_scenarios' class='scenarios' style='margin-bottom: 25px;'> </ul>");
                                $.each(reg.scenarios, function (key, value) {
                                    if(Array.isArray(reg.scenarios)) {
@@ -45,20 +46,41 @@
            });
         });
 	</script>
+
 </head>
 
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-header">
-			<a id="navbarlink" href="" style="padding-left:1em;padding-top:1.1em;margin-right:-.5em;" class="pull-left"><img id="logo_id" style='max-height:25px;' width="" height="auto" src=""></a> <a class="navbar-brand" id="title_id" href="#">.</a> </div>
-	</nav>
-	<div id="scenarios" style="margin:5em;">
- <div id="novizalert" class="alert alert-danger" style="display:none">Please select at least one visualization to display</div>
-        <h3><p>Please select a scenario for visualization</p></h3>
+       <a class="navbar-brand" href="https://www.cmap.illinois.gov/data/transportation/modeling?doAsUserId=fH2a30wm7Fk%3D%2F-%2Fasset_publisher%2FQ4En%2Fcontent%2Fid%2F322604">Chicago Metropolitan Agency for Planning</a>
+		 </nav>
 
-            <br/>
+	<!-- CMAP Model Description -->
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<div class="row">
+			<p>PLACE HOLDER TEXT CMAP is also developing a set of advanced models under the
+			  "activity-based" modeling framework. This is a multi-year effort
+			  outlined in our Strategic Plan for Advanced Modeling at CMAP.
+			  Activity-Based Modeling is increasingly viewed as a superior method
+			  to better understand the socioeconomic determinants of travel choice
+			  and for evaluating modern transportation solutions. The research effort to
+			  implement advanced models for metropolitan planning is still comparatively young.</p>
+		</div>
+		<div class="row">
+			<p><img src = "data/cmap/img/ctramp.png" width="25%" align="middle">Place holder image</p>
+		</div>
+		<br>
+		<br>
+		<div  id="scenarios" class="row">
+	 <div id="novizalert" class="alert alert-danger" style="display:none">Please select at least one visualization to display</div>
 	</div>
-
+	</div>
 </body>
 
 </html>

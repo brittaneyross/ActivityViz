@@ -4,11 +4,11 @@
   "ZoneFile":"sacogll.json",
   "Icon":"sacog.ico",
   "Logo":"sacog-logo.png",
-  "NavbarTitle":"ABMVIZ",
-  "LinkURL":"https://www.sacog.org/",
+  "NavbarTitle":"CMAP Activity-Base Model",
+  "LinkURL":"https://www.cmap.illinois.gov/",
   "TabbedCharts": true,
   "CenterMap": [38.57576, -121.47885],
-  "FrontPageTitle": "Chicago Metropolitan Agency for Planning",
+  "FrontPageTitle": "CMAP Activity Based Model Reports",
   "FrontPageGraphic": "sacog-logo.png",
   "scenarios":{
     "Calibration": "- CT-RAMP",
@@ -16,7 +16,6 @@
   },
   "visualizations":{
   "GrpBar":true,
-  "GrpBar2":true,
   "BarMap":true,
   "TimeUse":false,
   "Radar":false,
@@ -33,7 +32,7 @@
     "NumberColsGrouped":1,
     "SwapLegendByDefault":true,
     "ShowAsPercentByDefault":true,
-    "ShowAsVerticalByDefault":false,
+    "ShowAsVerticalByDefault":true,
     "StackAllChartsByDefault":false,
     "ChartWidthOverride": []
   },
